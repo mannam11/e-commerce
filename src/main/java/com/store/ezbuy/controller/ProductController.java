@@ -34,7 +34,7 @@ public class ProductController {
     public ResponseEntity<String> removeProduct(@PathVariable long productId){
         if(productService.deleteProduct(productId)) return new ResponseEntity<>("Product deleted successfully", HttpStatus.OK);
 
-        return new ResponseEntity<>("Prodcut with id : "+productId+" is not present", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>("Product with id : "+productId+" is not present", HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("/get/{productId}")
