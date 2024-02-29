@@ -36,7 +36,7 @@ public class ProductService {
             Category category = new Category();
             category.setName(dtoCategory);
             categoryRepository.save(category);
-            product.setCategory(category.getId());
+            product.setCategoryId(category.getId());
         }
 
         String dtoBrand = productDto.getBrand();
@@ -45,7 +45,7 @@ public class ProductService {
             Brand brand = new Brand();
             brand.setName(dtoBrand);
             brandRepository.save(brand);
-            product.setBrand(brand.getId());
+            product.setBrandId(brand.getId());
         }
 
         productRepository.save(product);
@@ -89,9 +89,9 @@ public class ProductService {
                 Brand brand = new Brand();
                 brand.setName(dtoBrand);
                 brandRepository.save(brand);
-                existingProduct.setBrand(brand.getId());
+                existingProduct.setBrandId(brand.getId());
             }else{
-                existingProduct.setBrand(optionalDtoBrand.get().getId());
+                existingProduct.setBrandId(optionalDtoBrand.get().getId());
             }
 
             String dtoCategory = productDto.getCategory();
@@ -100,9 +100,9 @@ public class ProductService {
                 Category category = new Category();
                 category.setName(dtoCategory);
                 categoryRepository.save(category);
-                existingProduct.setCategory(category.getId());
+                existingProduct.setCategoryId(category.getId());
             }else{
-                existingProduct.setCategory(optionalDtoCategory.get().getId());
+                existingProduct.setCategoryId(optionalDtoCategory.get().getId());
             }
             productRepository.save(existingProduct);
 
@@ -110,5 +110,19 @@ public class ProductService {
         }
 
         return false;
+    }
+
+    public List<Product> getProductsByBrand(String brandName){
+
+        long brandId = brandRepository.findByName(brandName).get().getId();
+
+        return productRepository.findByBrandId(brandId);
+    }
+
+    public List<Product> getProductsByCategory(String categoryName){
+
+        long categoryId = categoryRepository.findByName(categoryName).get().getId();
+
+        return productRepository.findByCategoryId(categoryId);
     }
 }

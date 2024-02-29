@@ -2,6 +2,8 @@ package com.store.ezbuy.controller;
 
 import com.store.ezbuy.dto.ProductDto;
 import com.store.ezbuy.entity.Product;
+import com.store.ezbuy.service.BrandService;
+import com.store.ezbuy.service.CategoryService;
 import com.store.ezbuy.service.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,9 +16,13 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService productService;
+    private final BrandService brandService;
+    private final CategoryService categoryService;
 
-    public ProductController(ProductService productService) {
+    public ProductController(ProductService productService, BrandService brandService, CategoryService categoryService) {
         this.productService = productService;
+        this.brandService = brandService;
+        this.categoryService = categoryService;
     }
 
     @PostMapping("/add-product")
@@ -54,5 +60,21 @@ public class ProductController {
         }
 
         return new ResponseEntity<>("Prodcut with id : "+productId+" is not present", HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping("/by-brand")
+    public ResponseEntity<List<Product>> getByBrand(@RequestParam String brandName){
+        if(brandService.findByName(brandName).isEmpty()){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(productService.getProductsByBrand(brandName), HttpStatus.OK);
+    }
+
+    @GetMapping("/by-category")
+    public ResponseEntity<List<Product>> getByCategory(@RequestParam String categoryName){
+        if(categoryService.findByName(categoryName).isEmpty()){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(productService.getProductsByCategory(categoryName), HttpStatus.OK);
     }
 }
