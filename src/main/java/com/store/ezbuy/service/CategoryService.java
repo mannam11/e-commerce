@@ -1,6 +1,5 @@
 package com.store.ezbuy.service;
 
-import com.store.ezbuy.entity.Brand;
 import com.store.ezbuy.entity.Category;
 import com.store.ezbuy.repository.CategoryRepository;
 import lombok.AllArgsConstructor;

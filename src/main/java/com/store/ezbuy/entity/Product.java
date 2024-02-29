@@ -34,9 +34,9 @@ public class Product {
     private LocalDate addedOn;
 
     @Column(name = "category_id", nullable = false)
-    private long category;
+    private long categoryId;
 
     @Column(name = "brand", nullable = false)
-    private long brand;
+    private long brandId;
 
 }
