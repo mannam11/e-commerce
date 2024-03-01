@@ -30,22 +30,24 @@ public class ProductService {
         product.setPricePerUnit(productDto.getPricePerUnit());
         product.setQuantity(productDto.getQuantity());
 
-        String dtoCategory = productDto.getCategory();
-        Optional<Category> optionalDtoCategory = categoryRepository.findByName(dtoCategory);
+        Optional<Category> optionalDtoCategory = categoryRepository.findByName(productDto.getCategory());
         if(optionalDtoCategory.isEmpty()){
             Category category = new Category();
-            category.setName(dtoCategory);
+            category.setName(productDto.getCategory());
             categoryRepository.save(category);
-            product.setCategoryId(category.getId());
+            product.setCategory(category);
+        }else{
+            product.setCategory(optionalDtoCategory.get());
         }
 
-        String dtoBrand = productDto.getBrand();
-        Optional<Brand> optionalDtoBrand = brandRepository.findByName(dtoBrand);
+        Optional<Brand> optionalDtoBrand = brandRepository.findByName(productDto.getBrand());
         if(optionalDtoBrand.isEmpty()){
             Brand brand = new Brand();
-            brand.setName(dtoBrand);
+            brand.setName(productDto.getBrand());
             brandRepository.save(brand);
-            product.setBrandId(brand.getId());
+            product.setBrand(brand);
+        }else{
+            product.setBrand(optionalDtoBrand.get());
         }
 
         productRepository.save(product);
@@ -83,26 +85,24 @@ public class ProductService {
             existingProduct.setPricePerUnit(productDto.getPricePerUnit());
             existingProduct.setQuantity(productDto.getQuantity());
 
-            String dtoBrand = productDto.getBrand();
-            Optional<Brand> optionalDtoBrand = brandRepository.findByName(dtoBrand);
+            Optional<Brand> optionalDtoBrand = brandRepository.findByName(productDto.getBrand());
             if(optionalDtoBrand.isEmpty()){
                 Brand brand = new Brand();
-                brand.setName(dtoBrand);
+                brand.setName(productDto.getBrand());
                 brandRepository.save(brand);
-                existingProduct.setBrandId(brand.getId());
+                existingProduct.setBrand(brand);
             }else{
-                existingProduct.setBrandId(optionalDtoBrand.get().getId());
+                existingProduct.setBrand(optionalDtoBrand.get());
             }
 
-            String dtoCategory = productDto.getCategory();
-            Optional<Category> optionalDtoCategory = categoryRepository.findByName(dtoCategory);
+            Optional<Category> optionalDtoCategory = categoryRepository.findByName(productDto.getCategory());
             if(optionalDtoCategory.isEmpty()){
                 Category category = new Category();
-                category.setName(dtoCategory);
+                category.setName(productDto.getCategory());
                 categoryRepository.save(category);
-                existingProduct.setCategoryId(category.getId());
+                existingProduct.setCategory(category);
             }else{
-                existingProduct.setCategoryId(optionalDtoCategory.get().getId());
+                existingProduct.setCategory(optionalDtoCategory.get());
             }
             productRepository.save(existingProduct);
 

@@ -33,10 +33,12 @@ public class Product {
     @Column(name = "added_on")
     private LocalDate addedOn;
 
-    @Column(name = "category_id", nullable = false)
-    private long categoryId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
 
-    @Column(name = "brand", nullable = false)
-    private long brandId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "brand_id", nullable = false)
+    private Brand brand;
 
 }
