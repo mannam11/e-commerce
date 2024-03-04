@@ -21,7 +21,8 @@ public class BrandController {
 
         boolean isCreated = brandService.createBrand(brand);
         if(isCreated){
-            return new ResponseEntity<>("A new brand added successfully", HttpStatus.CREATED);
+            return new ResponseEntity<>("A new brand added successfully",
+                    HttpStatus.CREATED);
         }
 
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
